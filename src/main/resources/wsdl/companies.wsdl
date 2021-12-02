@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://spring.io/guides/gs-producing-web-service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://spring.io/guides/gs-producing-web-service" targetNamespace="http://spring.io/guides/gs-producing-web-service">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://spring.io/guides/gs-producing-web-service">
+	
+	<xs:element name="getCompanyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="1" name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getCompanyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="0" name="company" type="tns:company"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<xs:element name="getCompaniesRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="1" minOccurs="0" name="name" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getCompaniesResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" minOccurs="1" name="company" type="tns:company"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="company">
+		<xs:sequence>
+			<xs:element name="id" type="xs:int"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element name="shoppeId" type="xs:int"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="products" type="tns:products"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="products">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="quantity" type="xs:double"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getCompaniesResponse">
+    <wsdl:part element="tns:getCompaniesResponse" name="getCompaniesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyRequest">
+    <wsdl:part element="tns:getCompanyRequest" name="getCompanyRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompaniesRequest">
+    <wsdl:part element="tns:getCompaniesRequest" name="getCompaniesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyResponse">
+    <wsdl:part element="tns:getCompanyResponse" name="getCompanyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CompaniesPort">
+    <wsdl:operation name="getCompanies">
+      <wsdl:input message="tns:getCompaniesRequest" name="getCompaniesRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getCompaniesResponse" name="getCompaniesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCompany">
+      <wsdl:input message="tns:getCompanyRequest" name="getCompanyRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getCompanyResponse" name="getCompanyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CompaniesPortSoap11" type="tns:CompaniesPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCompanies">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getCompaniesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCompaniesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCompany">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getCompanyRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCompanyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CompaniesPortService">
+    <wsdl:port binding="tns:CompaniesPortSoap11" name="CompaniesPortSoap11">
+      <soap:address location="http://localhost:8182/ws/company"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
